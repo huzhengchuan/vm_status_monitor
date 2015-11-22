@@ -147,6 +147,35 @@ int vm_cmd_status(virConnectPtr conn, virDomainPtr dom)
 	return 0;
 }
 
+#define ASSERT_ISNULL_RETURN(cmdStr, returnERR) \
+	do{                                         \
+		if(NULL == cmdStr)                      \
+		{                                       \
+			return returnERR;                   \
+		}                                       \
+	}while(0)                                  
+
+
+VM_CMD_TYPE cmdStrToType(const char *cmdStr)
+{
+	ASSERT_ISNULL_RETURN(cmdStr, VM_CMD_BUTT);
+	
+	if(!strcmp(cmdStr, "start") || !strcmp(cmdStr, "START"))
+	{
+		return VM_CMD_START;
+	}
+	if(!strcmp(cmdStr, "shutdown") || !strcmp(cmdStr, "SHUTDOWN"))
+	{
+		return VM_CMD_SHUTDOWN;
+	}
+	if(!strcmp(cmdStr, "status") || !strcmp(cmdStr, "STATUS"))
+	{
+		return VM_CMD_STATUS;
+	}
+
+	return VM_CMD_BUTT; 
+
+}
 int main(int argc, char *argv[])
 {
 	virConnectPtr conn;
@@ -175,7 +204,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	
-	strcpy(cmdStr, argv[2], 63);
+	strncpy(cmdStr, argv[2], 63);
 
 BEGIN:
 	
