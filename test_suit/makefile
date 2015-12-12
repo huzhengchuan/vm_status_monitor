@@ -1,7 +1,7 @@
 
 INCLUDE=/usr/include/
 LIBS=/usr/lib/
-target:create_kvm vm_lifecycle msg_task msg_task_0
+target:create_kvm vm_lifecycle msg_task msg_task_0 msg_client
 
 create_kvm:create_kvm.c
 	gcc -g -o $@ $< -I ${INCLUDE} -L ${LIBS} -lvirt
@@ -18,4 +18,7 @@ msg_task:msg_task.c
 	gcc -g -o $@ $< -I ${INCLUDE} -L ${LIBS} -lvirt -lev
 
 msg_task_0:msg_task_0.c
+	gcc -g -o $@ $< -I ${INCLUDE} -L ${LIBS} -lvirt -lev
+
+msg_client:msg_client.c
 	gcc -g -o $@ $< -I ${INCLUDE} -L ${LIBS} -lvirt -lev
